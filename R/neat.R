@@ -874,7 +874,7 @@ calcTotalNumOfGenomes <- function(simulation){
   return(counter)
 }
 
-simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimulated,framesPerSecond=1,generationSeed){
+simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimulated,framesPerSecond=1,generationSeed=1){
   i<-speciesNum
   j <-genomeNum
   set.seed(generationSeed)
