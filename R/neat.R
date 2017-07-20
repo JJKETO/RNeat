@@ -874,7 +874,7 @@ calcTotalNumOfGenomes <- function(simulation){
   return(counter)
 }
 
-simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimulated,framesPerSecond=1,generationSeed=1){
+simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimulated,framesPerSecond=1,generationSeed){
   i<-speciesNum
   j <-genomeNum
   set.seed(generationSeed)
@@ -895,7 +895,7 @@ simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimul
     simulation$Pool$species[[i]]$genomes[[j]]$Fitness <- 0
     #Repeat acts like a do-while loop
     frameNum <- 0
-    set.seed(generationSeed)
+    #set.seed(generationSeed)
     repeat{
       x <- .Random.seed
       if(plotScene){
@@ -960,7 +960,7 @@ NEATSimulation.RunSingleGeneration <- function(simulation, createVideo=F, videoP
   nTot <- calcTotalNumOfGenomes(simulation)
   for(i in seq(1,length(simulation$Pool$species))){
     for(j in seq(1,length(simulation$Pool$species[[i]]$genomes))){
-      simulation <- simulationRunner(simulation,i,j,F,100*counter/nTot,generationSeed)
+      simulation <- simulationRunner(simulation,i,j,F,100*counter/nTot,generationSeed = generationSeed)
       counter <- counter + 1
     }
   }
