@@ -3,7 +3,7 @@
 #' @importFrom stats median runif
 #' @importFrom animation saveVideo ani.options
 #' @importFrom doParallel foreach %dopar%
-#' @importFrom parallel detectCores
+#' @importFrom parallel detectCores makeCluster
 config.video.phenotypedurationseconds = 1
 config.video.performancedurationseconds = 1
 library(foreach)
