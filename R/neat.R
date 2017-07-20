@@ -956,7 +956,7 @@ pkg.env$debugGenome <- 0
 #' @export
 NEATSimulation.RunSingleGeneration <- function(simulation, createVideo=F, videoPath="videos",videoName="", framesPerSecond=1){
   generationSeed <- sample(c(1:1000,1))
-  cl<-parallel::makeCluster(detectCores()-1)
+  cl<-parallel::makeCluster(parallel::detectCores()-1)
   doParallel::registerDoParallel(cl)
   assertTrueFunc(is(simulation,"NEATSimulation"),"simulation must be a of class NEATSimulation")
   oldMaxFitness <- simulation$Pool$maxFitness
@@ -964,7 +964,7 @@ NEATSimulation.RunSingleGeneration <- function(simulation, createVideo=F, videoP
   print("Starting simulations...")
   counter <- 1
   nTot <- calcTotalNumOfGenomes(simulation)
-  foreach(i = icount(length(simulation$Pool$species)),.packages = c("Game2048")) %dopar%{
+  foreach::foreach(i = icount(length(simulation$Pool$species)),.packages = c("Game2048")) %dopar%{
     for(j in seq(1,length(simulation$Pool$species[[i]]$genomes))){
       simulation <- simulationRunner(simulation,i,j,F,100*counter/nTot,generationSeed = generationSeed)
       counter <- counter + 1
