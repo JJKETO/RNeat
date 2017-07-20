@@ -2,9 +2,12 @@
 #' @importFrom methods is
 #' @importFrom stats median runif
 #' @importFrom animation saveVideo ani.options
-
+#' @importFrom doParallel foreach %dopar%
+#' @importFrom parallel detectCores makeCluster
 config.video.phenotypedurationseconds = 1
 config.video.performancedurationseconds = 1
+
+
 
 #' Configuration for setting the number of system inputs/outputs, the max number of nodes and the total number of genomes
 #'
@@ -952,13 +955,15 @@ pkg.env$debugGenome <- 0
 #' @export
 NEATSimulation.RunSingleGeneration <- function(simulation, createVideo=F, videoPath="videos",videoName="", framesPerSecond=1){
   generationSeed <- sample(c(1:1000,1))
+  cl<-parallel::makeCluster(parallel::detectCores()-1)
+  doParallel::registerDoParallel(cl)
   assertTrueFunc(is(simulation,"NEATSimulation"),"simulation must be a of class NEATSimulation")
   oldMaxFitness <- simulation$Pool$maxFitness
   
   print("Starting simulations...")
   counter <- 1
   nTot <- calcTotalNumOfGenomes(simulation)
-  for(i in seq(1,length(simulation$Pool$species))){
+  foreach::foreach(i = c(1:length(simulation$Pool$species)),.packages = c("Game2048")) %dopar%{
     for(j in seq(1,length(simulation$Pool$species[[i]]$genomes))){
       simulation <- simulationRunner(simulation,i,j,F,100*counter/nTot,generationSeed = generationSeed)
       counter <- counter + 1
@@ -989,7 +994,7 @@ NEATSimulation.RunSingleGeneration <- function(simulation, createVideo=F, videoP
       }
     }
   }
-
+  parallel::stopCluster(cl)
   return (simulation)
 }
 
@@ -1059,17 +1064,5 @@ plotPerformanceTracker <- function(data){
   legend(x='bottomright', c("Min","Max","Mean","Median"),  fill=c("red","blue","green","purple"), bty='n')
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
