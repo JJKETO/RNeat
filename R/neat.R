@@ -877,7 +877,6 @@ calcTotalNumOfGenomes <- function(simulation){
 simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimulated,framesPerSecond=1){
   i<-speciesNum
   j <-genomeNum
-  set.seed(paste0(i,j,2017))
   if(length(simulation$Pool$species[[i]]$genomes[[j]]$ConnectionGenes)>0){
     if(plotScene){
       tCount <- 0
@@ -887,16 +886,18 @@ simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimul
       }
     }
     #print(paste("Started simulation of species",i,"/",length(simulation$Pool$species),"genome",j,"/",length(simulation$Pool$species[[i]]$genomes)))
+    set.seed(paste0(i,j,2017))
     state <- simulation$ProcessInitialStateFunc()
     fitness <- 0
     simulation$Pool$species[[i]]$genomes[[j]] <- generateNetwork(simulation$Pool$species[[i]]$genomes[[j]],simulation$Config)
     simulation$Pool$species[[i]]$genomes[[j]]$Fitness <- 0
     #Repeat acts like a do-while loop
-    frameNum <- 0
+    frameNum <- 0             
     repeat{
       if(plotScene){
         simulation$PlotState(state)
       }
+      set.seed(paste0(i,j,2017))
       neuralNetInputs <- simulation$ProcessStateToNeuralInputFunc(state)
 
       #  print(simulation$Pool$species[[i]]$genomes[[j]])
