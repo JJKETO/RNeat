@@ -874,10 +874,10 @@ calcTotalNumOfGenomes <- function(simulation){
   return(counter)
 }
 
-simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimulated,framesPerSecond=1){
+simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimulated,framesPerSecond=1,generationSeed){
   i<-speciesNum
   j <-genomeNum
-  set.seed(paste0(2017))
+  set.seed(generationSeed)
   if(length(simulation$Pool$species[[i]]$genomes[[j]]$ConnectionGenes)>0){
     x <- .Random.seed
     if(plotScene){
@@ -895,7 +895,6 @@ simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimul
     simulation$Pool$species[[i]]$genomes[[j]]$Fitness <- 0
     #Repeat acts like a do-while loop
     frameNum <- 0 
-    set.seed(paste0(2017))
     repeat{
       x <- .Random.seed
       if(plotScene){
@@ -951,6 +950,7 @@ pkg.env$debugGenome <- 0
 #' @return NEATSimulation class with new generation of genomes
 #' @export
 NEATSimulation.RunSingleGeneration <- function(simulation, createVideo=F, videoPath="videos",videoName="", framesPerSecond=1){
+  generationSeed <- sample(c(1:1000,1))
   assertTrueFunc(is(simulation,"NEATSimulation"),"simulation must be a of class NEATSimulation")
   oldMaxFitness <- simulation$Pool$maxFitness
 
@@ -959,7 +959,7 @@ NEATSimulation.RunSingleGeneration <- function(simulation, createVideo=F, videoP
   nTot <- calcTotalNumOfGenomes(simulation)
   for(i in seq(1,length(simulation$Pool$species))){
     for(j in seq(1,length(simulation$Pool$species[[i]]$genomes))){
-      simulation <- simulationRunner(simulation,i,j,F,100*counter/nTot)
+      simulation <- simulationRunner(simulation,i,j,F,100*counter/nTot,generationSeed)
       counter <- counter + 1
     }
   }
@@ -977,7 +977,7 @@ NEATSimulation.RunSingleGeneration <- function(simulation, createVideo=F, videoP
             videoName = paste(videoPath,"/",videoName,"generation",simulation$Pool$generation,"fitness",simulation$Pool$maxFitness,"species",i,"genome",j,".mpeg",sep="")
             print(paste("Creating video",videoName,"..."))
             oopt = ani.options(ani.width = 1200, ani.height = 800, other.opts = "-define png:color-type=2")
-            saveVideo(simulationRunner(simulation,i,j,T,100,framesPerSecond),interval=1/framesPerSecond,ani.options=oopt,video.name=videoName,
+            saveVideo(simulationRunner(simulation,i,j,T,100,framesPerSecond,generationSeed),interval=1/framesPerSecond,ani.options=oopt,video.name=videoName,
                      other.opts = "-target pal-dvd")
             ani.options(oopt)
           } else {
