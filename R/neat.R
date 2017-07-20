@@ -974,7 +974,7 @@ NEATSimulation.RunSingleGeneration <- function(simulation, createVideo=F, videoP
     for(i in seq(1,length(simulation$Pool$species))){
       for(j in neatseq(1,length(simulation$Pool$species[[i]]$genomes))){
         if(simulation$Pool$species[[i]]$genomes[[j]]$Fitness==simulation$Pool$maxFitness & !createdVid){
-          if(oldMaxFitness != simulation$Pool$maxFitness){
+          if(oldMaxFitness > simulation$Pool$maxFitness){
             videoName = paste(videoPath,"/",videoName,"generation",simulation$Pool$generation,"fitness",simulation$Pool$maxFitness,"species",i,"genome",j,".mpeg",sep="")
             print(paste("Creating video",videoName,"..."))
             oopt = ani.options(ani.width = 1200, ani.height = 800, other.opts = "-define png:color-type=2")
