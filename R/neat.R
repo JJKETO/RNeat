@@ -956,8 +956,8 @@ pkg.env$debugGenome <- 0
 #' @export
 NEATSimulation.RunSingleGeneration <- function(simulation, createVideo=F, videoPath="videos",videoName="", framesPerSecond=1){
   generationSeed <- sample(c(1:1000,1))
-  cl<-makeCluster(detectCores()-1)
-  registerDoParallel(cl)
+  cl<-parallel::makeCluster(detectCores()-1)
+  doParallel::registerDoParallel(cl)
   assertTrueFunc(is(simulation,"NEATSimulation"),"simulation must be a of class NEATSimulation")
   oldMaxFitness <- simulation$Pool$maxFitness
   
@@ -995,7 +995,7 @@ NEATSimulation.RunSingleGeneration <- function(simulation, createVideo=F, videoP
       }
     }
   }
-  stopCluster(cl)
+  parallel::stopCluster(cl)
   return (simulation)
 }
 
