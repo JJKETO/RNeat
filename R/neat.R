@@ -877,7 +877,7 @@ calcTotalNumOfGenomes <- function(simulation){
 simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimulated,framesPerSecond=1){
   i<-speciesNum
   j <-genomeNum
-  set.seed(paste0(i,j,2017))
+  set.seed(paste0(2017))
   if(length(simulation$Pool$species[[i]]$genomes[[j]]$ConnectionGenes)>0){
     x <- .Random.seed
     if(plotScene){
@@ -895,7 +895,7 @@ simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimul
     simulation$Pool$species[[i]]$genomes[[j]]$Fitness <- 0
     #Repeat acts like a do-while loop
     frameNum <- 0 
-    set.seed(paste0(i,j,2017))
+    set.seed(paste0(2017))
     repeat{
       x <- .Random.seed
       if(plotScene){
