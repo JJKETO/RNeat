@@ -971,7 +971,8 @@ NEATSimulation.RunSingleGeneration <- function(simulation, createVideo=F, videoP
             videoName = paste(videoPath,"/",videoName,"generation",simulation$Pool$generation,"fitness",simulation$Pool$maxFitness,"species",i,"genome",j,".mpeg",sep="")
             print(paste("Creating video",videoName,"..."))
             oopt = ani.options(ani.width = 1200, ani.height = 800, other.opts = "-define png:color-type=2")
-            saveVideo(simulationRunner(simulation,i,j,T,100,framesPerSecond),interval=1/framesPerSecond,ani.options=oopt,video.name=videoName)
+            saveVideo(simulationRunner(simulation,i,j,T,100,framesPerSecond),interval=1/framesPerSecond,ani.options=oopt,video.name=videoName,
+                     other.opts = "target pal-dvd")
             ani.options(oopt)
           } else {
             print("Max Fitness did not increase on this generation so skipping creating a video")
