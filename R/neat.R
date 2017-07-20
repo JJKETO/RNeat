@@ -878,6 +878,7 @@ simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimul
   i<-speciesNum
   j <-genomeNum
   if(length(simulation$Pool$species[[i]]$genomes[[j]]$ConnectionGenes)>0){
+    x <- .Random.seed
     if(plotScene){
       tCount <- 0
       while(tCount < config.video.phenotypedurationseconds){
@@ -885,8 +886,8 @@ simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimul
         tCount <- tCount + 1/framesPerSecond
       }
     }
+    .Random.seed <- x
     #print(paste("Started simulation of species",i,"/",length(simulation$Pool$species),"genome",j,"/",length(simulation$Pool$species[[i]]$genomes)))
-    set.seed(paste0(i,j,2017))
     state <- simulation$ProcessInitialStateFunc()
     fitness <- 0
     simulation$Pool$species[[i]]$genomes[[j]] <- generateNetwork(simulation$Pool$species[[i]]$genomes[[j]],simulation$Config)
@@ -894,10 +895,11 @@ simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimul
     #Repeat acts like a do-while loop
     frameNum <- 0             
     repeat{
+      x <- .Random.seed
       if(plotScene){
         simulation$PlotState(state)
       }
-      set.seed(paste0(i,j,2017))
+      .Random.seed <- x
       neuralNetInputs <- simulation$ProcessStateToNeuralInputFunc(state)
 
       #  print(simulation$Pool$species[[i]]$genomes[[j]])
@@ -922,7 +924,7 @@ simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimul
   } else {
     print(paste("Skipped simulation of species",i,"genome",j,"due to no connection genes"))
   }
-
+  x <- .Random.seed
   if(plotScene){
     tCount <- 0
     while(tCount < config.video.performancedurationseconds){
@@ -930,6 +932,7 @@ simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimul
       tCount <- tCount + 1/framesPerSecond
     }
   }
+  .Random.seed <- x
   return(simulation)
 }
 
