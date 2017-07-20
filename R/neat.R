@@ -894,7 +894,8 @@ simulationRunner <- function(simulation,speciesNum,genomeNum,plotScene, pctSimul
     simulation$Pool$species[[i]]$genomes[[j]] <- generateNetwork(simulation$Pool$species[[i]]$genomes[[j]],simulation$Config)
     simulation$Pool$species[[i]]$genomes[[j]]$Fitness <- 0
     #Repeat acts like a do-while loop
-    frameNum <- 0             
+    frameNum <- 0 
+    set.seed(paste0(i,j,2017))
     repeat{
       x <- .Random.seed
       if(plotScene){
