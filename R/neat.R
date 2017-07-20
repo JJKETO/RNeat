@@ -964,7 +964,7 @@ NEATSimulation.RunSingleGeneration <- function(simulation, createVideo=F, videoP
   print("Starting simulations...")
   counter <- 1
   nTot <- calcTotalNumOfGenomes(simulation)
-  foreach(i = icount(length(simulation$Pool$species))) %dopar%{
+  foreach(i = icount(length(simulation$Pool$species)),.export = c("Game.InitializeNewGame")) %dopar%{
     for(j in seq(1,length(simulation$Pool$species[[i]]$genomes))){
       simulation <- simulationRunner(simulation,i,j,F,100*counter/nTot,generationSeed = generationSeed)
       counter <- counter + 1
