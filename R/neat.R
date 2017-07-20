@@ -953,9 +953,8 @@ pkg.env$debugGenome <- 0
 NEATSimulation.RunSingleGeneration <- function(simulation, createVideo=F, videoPath="videos",videoName="", framesPerSecond=1){
   generationSeed <- sample(c(1:1000,1))
   assertTrueFunc(is(simulation,"NEATSimulation"),"simulation must be a of class NEATSimulation")
-  if(simulation$Pool$maxFitness > oldMaxFitness){
-    oldMaxFitness <- simulation$Pool$maxFitness
-  }
+  oldMaxFitness <- simulation$Pool$maxFitness
+  
   print("Starting simulations...")
   counter <- 1
   nTot <- calcTotalNumOfGenomes(simulation)
