@@ -3,8 +3,8 @@
 #' @importFrom stats median runif
 #' @importFrom animation saveVideo ani.options
 
-config.video.phenotypedurationseconds = 1
-config.video.performancedurationseconds = 1
+config.video.phenotypedurationseconds = 2
+config.video.performancedurationseconds = 2
 
 #' Configuration for setting the number of system inputs/outputs, the max number of nodes and the total number of genomes
 #'
@@ -14,7 +14,24 @@ config.video.performancedurationseconds = 1
 #' @param speciesPopulation The number of genomes to simulate
 #' @return configNEAT class
 #' @export
-newConfigNEAT <- function(numInputs,numOutputs,maxNumOfNodes, speciesPopulation=200){
+newConfigNEAT <- function(numInputs,
+                          numOutputs,
+                          maxNumOfNodes, 
+                          speciesPopulation=200,
+                          MutateConnectionChance=0.25,
+                          MutateLinkChance=2,
+                          MutateBiasChance=0.4,
+                          MutateNodeChance=0.5,
+                          MutateEnableChance=0.2,
+                          MutateDisableChance=0.4,
+                          MutateStepSize=0.1,
+                          MutationIncOrDecRate=0.05,
+                          PerturbChance=0.9,
+                          StaleSpecies=25,
+                          CrossoverChance=0.75,
+                          SpeciesDeltaDisjoint=2,
+                          SpeciesDeltaWeight=0.4,
+                          SpeciesDeltaThreshold=1){
   assertTrueFunc(is(numInputs,"numeric"),"NumInputs must be a number")
   assertTrueFunc(is(numOutputs,"numeric"),"NumOutputs must be a number")
   assertTrueFunc(is(maxNumOfNodes,"numeric"),"MaxNumOfNodes must be a number")
@@ -25,21 +42,21 @@ newConfigNEAT <- function(numInputs,numOutputs,maxNumOfNodes, speciesPopulation=
   assertTrueFunc(maxNumOfNodes>0,"MaxNumOfNodes must be greater than 0")
   assertTrueFunc(speciesPopulation>0,"SpeciesPopulation must be greater than 0")
 
-  res <- list(MutateConnectionChance=0.25,
-              MutateLinkChance=2,
-              MutateBiasChance=0.4,
-              MutateNodeChance=0.5,
-              MutateEnableChance=0.2,
-              MutateDisableChance=0.4,
-              MutateStepSize=0.1,
-              MutationIncOrDecRate=0.05,
-              PerturbChance=0.9,
-              StaleSpecies=25,
-              CrossoverChance=0.75,
+  res <- list(MutateConnectionChance=MutateConnectionChance,
+              MutateLinkChance=MutateLinkChance,
+              MutateBiasChance=MutateBiasChance,
+              MutateNodeChance=MutateNodeChance,
+              MutateEnableChance=MutateEnableChance,
+              MutateDisableChance=MutateDisableChance,
+              MutateStepSize=MutateStepSize,
+              MutationIncOrDecRate=MutationIncOrDecRate,
+              PerturbChance=PerturbChance,
+              StaleSpecies=StaleSpecies,
+              CrossoverChance=CrossoverChance,
               SpeciesPopulation=speciesPopulation,
-              SpeciesDeltaDisjoint=2,
-              SpeciesDeltaWeight=0.4,
-              SpeciesDeltaThreshold=1,
+              SpeciesDeltaDisjoint=SpeciesDeltaDisjoint,
+              SpeciesDeltaWeight=SpeciesDeltaWeight,
+              SpeciesDeltaThreshold=SpeciesDeltaThreshold,
               Inputs=numInputs,
               Outputs=numOutputs,
               MaxNodes=maxNumOfNodes
